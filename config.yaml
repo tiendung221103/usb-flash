@@ -10,11 +10,11 @@ firmware:
   path: "./firmware/esp32/Blink.ino.bin"
   tool: "esptool.py"
   # OPTIMIZED COMMAND: Lower baudrate, auto reset
-  command: "esptool.py --chip esp32 --port {port} --baud {baudrate} --before default_reset --after hard_reset write_flash -z 0x10000 {firmware}"
-  baudrate: 115200  # Slower but more stable
-  timeout: 180      # Longer timeout
+  command: "/home/pi/firmware-updater/venv/bin/esptool.py --chip esp32 --port {port} --baud {baudrate} --before default_reset --after hard_reset write_flash -z 0x10000 {firmware}"
+  baudrate: 921600  # Slower but more stable
+  timeout: 60      # Longer timeout
   retry_count: 3
-  retry_delay: 5
+  retry_delay: 3
 
 gpio:
   led_green: 17

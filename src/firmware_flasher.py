@@ -94,7 +94,7 @@ class FirmwareFlasher:
         start_time = time.time()
 
         print(f"[Flasher] Waiting for device to be ready...")
-        time.sleep(2)
+        time.sleep(0.2)
         
         # Build command
         command = self._build_command(device_port)
