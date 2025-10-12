@@ -1,0 +1,28 @@
+[Unit]
+Description=Firmware Updater Service for USB Devices
+After=network.target
+
+[Service]
+Type=simple
+
+ExecStart=/home/pi/firmware-updater/venv/bin/python3 -m src.main
+WorkingDirectory=/home/pi/firmware-updater
+
+# Logging
+StandardOutput=journal
+StandardError=journal
+
+# Restart policy
+Restart=always
+RestartSec=10
+
+# User
+User=pi
+
+# Environment variables
+Environment="PYTHONUNBUFFERED=1"
+Environment="PYTHONPATH=/home/pi/firmware-updater"
+Environment="PATH=/home/pi/firmware-updater/venv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+
+[Install]
+WantedBy=multi-user.target
