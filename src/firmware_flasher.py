@@ -21,7 +21,7 @@ class FirmwareFlasher:
         Args:
             config: Configuration dictionary
         """
-        self.firmware_path = config['firmware']['path']
+        self.firmware_path = config['firmware'].get('path', None)
         self.tool_command = config['firmware']['command']
         self.timeout = config['firmware']['timeout']
         self.baudrate = config['firmware']['baudrate']
@@ -29,7 +29,10 @@ class FirmwareFlasher:
         self.retry_delay = config['firmware']['retry_delay']
         
         print(f"[Flasher] Initialized")
-        print(f"  Firmware: {self.firmware_path}")
+        if self.firmware_path:
+            print(f"  Firmware: {self.firmware_path} (fixed)")
+        else:
+            print(f"  Firmware: Will be loaded from USB (dynamic)")
         print(f"  Retry: {self.retry_count} times, delay {self.retry_delay}s")
     
     def flash(self, device_port):

@@ -1,4 +1,4 @@
-# Firmware Updater Configuration - ESP32 CH340 OPTIMIZED
+# Firmware Updater Configuration - SECURE VERSION
 
 target_device:
   vid: "1a86"
@@ -6,13 +6,29 @@ target_device:
   name: "ESP32 with CH340"
   description: "ESP32 Development Board with CH340 USB-Serial"
 
+# USB Storage Device (for firmware source)
+usb_storage:
+  # Accept any USB storage device for now
+  # In production, you can whitelist specific VID/PID
+  auto_mount: true
+  mount_base: "/media/pi"
+  
+security:
+  enabled: true
+  public_key_path: "./keys/public.pem"
+  require_certificate: true   
+  verify_checksum: true
 firmware:
-  path: "./firmware/esp32/Blink.ino.bin"
+  # Firmware will be read from USB
+  usb_path: "firmware/firmware.bin"
+  checksum_path: "firmware/firmware.sha256"
+  device_info_path: "device_info.json"
+  certificate_path: "certificate.pem"
+  
   tool: "esptool.py"
-  # OPTIMIZED COMMAND: Lower baudrate, auto reset
   command: "/home/pi/firmware-updater/venv/bin/esptool.py --chip esp32 --port {port} --baud {baudrate} --before default_reset --after hard_reset write_flash -z 0x10000 {firmware}"
-  baudrate: 921600  # Slower but more stable
-  timeout: 60      # Longer timeout
+  baudrate: 921600
+  timeout: 60
   retry_count: 3
   retry_delay: 3
 
