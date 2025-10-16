@@ -159,11 +159,12 @@ def main():
             
             # Unmount USB storage if still mounted
             if current_usb_storage:
+                print(f"[Main] Unmounting {current_usb_storage.mount_point}...")
                 storage_monitor.unmount_device(current_usb_storage.mount_point)
             
             led.cleanup()
-        except:
-            pass
+        except Exception as e:
+            print(f"[Main] Cleanup error: {e}")
         
         print("[Main] Shutdown complete")
     
@@ -332,5 +333,6 @@ def handle_device_connected(device, device_validator, flasher, led):
     
     # Return to idle
     led.show_idle()
+
 if __name__ == '__main__':
     sys.exit(main())

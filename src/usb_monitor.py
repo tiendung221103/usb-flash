@@ -79,35 +79,45 @@ class USBMonitor:
       return None
     
     def _handle_event(self, device):
-      """Handle USB event - IMPROVED VERSION."""
-      action = device.action
-      
-      if action not in ('add', 'remove'):
-          return
-      
-      # Get device info
-      vid = device.get('ID_VENDOR_ID', '')
-      pid = device.get('ID_MODEL_ID', '')
-      
-      if not vid or not pid:
-          return
-      
-      # Find serial port for USB device
-      serial_port = self._find_serial_port(device)
-      
-      if not serial_port:
-          # Fallback to device_node
-          serial_port = device.device_node or ''
-      
-      usb_device = USBDevice(
-          sys_name=device.sys_name,
-          device_node=serial_port,  # Use found serial port
-          vid=vid,
-          pid=pid
-      )
-      
-      # Post event to queue
-      event_type = 'device_connected' if action == 'add' else 'device_disconnected'
-      self.event_queue.put((event_type, usb_device))
-      
-      print(f"[USB] {event_type}: {usb_device}")
+        """Handle USB event - IMPROVED VERSION."""
+        action = device.action
+        
+        if action not in ('add', 'remove'):
+            return
+        
+        # Get device info
+        vid = device.get('ID_VENDOR_ID', '')
+        pid = device.get('ID_MODEL_ID', '')
+        
+        if not vid or not pid:
+            return
+        
+        # ✅ CHỈ XỬ LÝ SERIAL DEVICES (có TTY)
+        # Bỏ qua USB storage (mass storage class)
+        device_class = device.get('ID_USB_CLASS_FROM_DATABASE', '')
+        if 'Mass Storage' in device_class:
+            print(f"[USB] Ignoring mass storage device: {vid}:{pid}")
+            return
+        
+        # Hoặc check bằng driver
+        if device.get('ID_USB_DRIVER') == 'usb-storage':
+            return
+        
+        # Find serial port for USB device
+        serial_port = self._find_serial_port(device)
+        
+        if not serial_port:
+            serial_port = device.device_node or ''
+        
+        usb_device = USBDevice(
+            sys_name=device.sys_name,
+            device_node=serial_port,
+            vid=vid,
+            pid=pid
+        )
+        
+        # Post event to queue
+        event_type = 'device_connected' if action == 'add' else 'device_disconnected'
+        self.event_queue.put((event_type, usb_device))
+        
+        print(f"[USB] {event_type}: {usb_device}")
