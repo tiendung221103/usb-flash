@@ -1,0 +1,20 @@
+# Core dependencies
+pyudev==0.24.1
+gpiozero==2.0.1
+PyYAML==6.0.1
+
+# Flashing tools
+esptool==4.7.0
+
+# System utilities
+psutil==5.9.5
+
+# Optional: For future web dashboard
+# flask==3.0.0
+# flask-socketio==5.3.5
+
+# Optional: For MQTT integration
+# paho-mqtt==1.6.1
+
+# Optional: For database logging
+# peewee==3.17.0
