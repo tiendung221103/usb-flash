@@ -366,21 +366,10 @@ python -m pytest tests/test_validator.py -v
 python -m pytest --cov=src tests/
 ```
 
-## 📖 Documentation
-
-- [Design Document](docs/DESIGN.md) - Architecture and implementation details
-- [API Reference](docs/API.md) - Module interfaces
-- [User Guide](docs/USER_GUIDE.md) - Step-by-step instructions
-- [FAQ](docs/FAQ.md) - Common questions
-
-## 🤝 Contributing
-
-Contributions are welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
-
 ### Development Setup
 ```bash
 # Clone repo
-git clone https://github.com/yourusername/firmware-updater.git
+git clone https://github.com/tiendung221103/usb-flash.git
 cd firmware-updater
 
 # Create branch
