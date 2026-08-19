@@ -77,8 +77,8 @@ sudo apt install -y libudev-dev python3-dev
 ### 2. Clone Repository
 ```bash
 cd /home/pi
-git clone https://github.com/yourusername/firmware-updater.git
-cd firmware-updater
+git clone https://github.com/tiendung221103/usb-flash.git
+cd usb-flash
 ```
 
 ### 3. Setup Python Virtual Environment
